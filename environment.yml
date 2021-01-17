@@ -1,0 +1,11 @@
+name: foraging_sim_hybrid
+channels:
+  - defaults
+dependencies:
+  - python=3.6
+  - numpy
+  - pip=19.1.1=py36_0
+  - pip:
+    - matplotlib==3.1.0
+    - tikzplotlib==0.8.2
+prefix: /anaconda3/envs/foraging_sim_hybrid
