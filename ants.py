@@ -48,6 +48,7 @@ class Ant:
         # derv = drv_gaussian(self.nt[1][0], self.nt[1][1], beacons.beacons, w_type)
 
         if np.linalg.norm(derv) < step_threshold or self.epsilon > random.uniform(0,1):
+        # if np.linalg.norm(derv) ==0 or self.epsilon > random.uniform(0,1):
             derv = np.array([random.uniform(-1,1),random.uniform(-1,1)])
             # derv = np.random.normal(scale=dt,size=(2))
 
@@ -107,7 +108,7 @@ class Ant:
         self.w[1] = gaussian(self.nt[1][0], self.nt[1][1], beacons.beacons, 1)
 
 class Ants:
-    def __init__(self, nest_location, food_location, epsilon=default_epsilon, N=default_N):
+    def __init__(self, nest_location, food_location, epsilon=default_epsilon):
         # self.ants = [Ant(nest_node, food_node, epsilon=default_epsilon) for _ in range(0, N)]
         # self.ants = {ant_tag: Ant(nest_location, food_location, ant_tag, epsilon=epsilon)
         #              for ant_tag in range(1, N+1)}

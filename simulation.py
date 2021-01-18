@@ -13,9 +13,10 @@ from scipy.spatial import Voronoi, voronoi_plot_2d
 
 class Simulations:
     def __init__(self,grid_size=default_grid_size, beacon_grid=default_beacon_grid,
-                 nest_location=default_nest_location, food_location=default_food_location, N=default_N,
-                 rho=default_rho,domain=default_domain):
-        self.N = N
+                 nest_location=default_nest_location, food_location=default_food_location, N_total=default_N_total,
+                 N_batch = default_N_batch, rho=default_rho,domain=default_domain):
+        self.N_total = N_total
+        self.N_batch = N_batch
         self.rho = rho
         self.grid = Grid(grid_size=grid_size,domain=domain)
         self.total_trips = dict()
@@ -25,7 +26,7 @@ class Simulations:
         # self.beacons.update_masks()
         # self.beacons.update_neighbours_beacons()
 
-        self.ants = Ants(nest_location, food_location, epsilon=default_epsilon, N=self.N)
+        self.ants = Ants(nest_location, food_location, epsilon=default_epsilon)
         self.ants.release_ants(1,list(self.beacons.beacons.keys()))
         self.ants.steps(self.beacons)
         self.switch_step()
@@ -37,8 +38,10 @@ class Simulations:
         # self.beacons.update_m_c_beacons(self.grid.W)
 
     def sim_step(self, time_step):
-        if time_step < 100:
-            self.ants.release_ants(self.N, list(self.beacons.beacons.keys()))
+        N_till_now = (time_step+1)*self.N_batch
+        # if time_step < 75:
+        if N_till_now < self.N_total:
+            self.ants.release_ants(self.N_batch, list(self.beacons.beacons.keys()))
         self.ants.steps(self.beacons)
 
         self.beacons.evaporate_weights(rho=self.rho)
@@ -302,8 +305,13 @@ class Simulations:
     def store_nr_trips(self,t):
         self.total_trips[t] = sum([self.ants.ants[ant_tag].trips for ant_tag in self.ants.ants])
 
-    def plot_trips(self,total_time):
+    def plot_trips(self,total_time,fig_tag=None):
         trips_sequence = [self.total_trips[time] for time in range(0,total_time)]
 
         plt.plot(range(0,total_time), trips_sequence, 'r')
-        plt.show()
+
+        if fig_tag:
+            plt.savefig('./figures/' + 'total_trips_' + str(fig_tag) + '.png')
+            plt.close()
+        else:
+            plt.show()

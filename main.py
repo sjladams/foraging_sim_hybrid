@@ -4,19 +4,24 @@ from simulation import *
 simulation = Simulations()
 
 simulation.plt_beacons(to_plot='W')
-for t in range(0,600):
+for t in range(0,int(total_time/dt)):
     # print('time is:' + str(t))
     # print({count:item.cl_beac for count,item in enumerate(simulation.ants.ants)})
     # print(simulation.beacons.check_weights(to_show = 'W1'))
     simulation.sim_step_mov_beac(t, switch_time=0)
     # simulation.plt_beacons(to_plot='W1')
-    if t % 10 ==0:  #5
+    if t % 5 ==0:  #5
         simulation.plt_beacons(to_plot='W1',fig_tag=t)
         simulation.plt_beacons(to_plot='W2',fig_tag=t)
         simulation.plt_beacons(to_plot='W', fig_tag=t)
         # simulation.plt_beacons(to_plot='W1')
+        # simulation.plt_beacons(to_plot='W2')
+        # simulation.plt_beacons(to_plot='W')
+        # simulation.plt_beacons(to_plot='W1')
 
-aap = 'mies'
+simulation.plot_trips(int(total_time/dt),fig_tag='test_case')
+
+
 # test = [item.mode[1] for item in simulation.ants.ants]
 # test = sum(test)
 
@@ -31,10 +36,10 @@ aap = 'mies'
 # plt.show()
 
 
-trips_per_an = [simulation.ants.ants[ant_tag].trips for ant_tag in simulation.ants.ants]
-aaa = max(trips_per_an)
-
-distance = np.sqrt( (default_nest_location[0]-default_food_location[0])**2 +
-                    (default_nest_location[1]-default_food_location[1])**2)
-
-min_time_trip = distance / dt
+# trips_per_an = [simulation.ants.ants[ant_tag].trips for ant_tag in simulation.ants.ants]
+# aaa = max(trips_per_an)
+#
+# distance = np.sqrt( (default_nest_location[0]-default_food_location[0])**2 +
+#                     (default_nest_location[1]-default_food_location[1])**2)
+#
+# min_time_trip = distance / dt

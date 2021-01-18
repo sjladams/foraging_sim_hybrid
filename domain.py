@@ -67,8 +67,6 @@ def gaussian(x,y, beacon,w_type):
 @mapper
 def drv_gaussian(x,y, beacon,w_type):
     # value = beacon.w[w_type] * np.exp(-((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var))
-    if w_type == 0:
-        test = 0
     if beacon.var[w_type]:
         value = ampFactor * np.exp(
             -((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
@@ -77,8 +75,8 @@ def drv_gaussian(x,y, beacon,w_type):
     else:
         to_return = np.zeros(2)
 
-    if to_return.shape == (2,2):
-        test = 0
+
+
     return to_return
 
 

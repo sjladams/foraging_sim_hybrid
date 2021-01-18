@@ -28,7 +28,7 @@ class Beacon:
 
     def variance(self):
         if self.w[0] > numeric_margin:
-            print(self.w[0])
+            # print(self.w[0])
             self.var[0] = -clip_range**2/(2*np.log(1- (self.w[0]/ampFactor) ))
         else:
             self.var[0] = None
