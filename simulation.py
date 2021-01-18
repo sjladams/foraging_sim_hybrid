@@ -11,6 +11,11 @@ from scipy.spatial import KDTree
 from scipy.ndimage.interpolation import shift
 from scipy.spatial import Voronoi, voronoi_plot_2d
 
+if local:
+    FOLDER_LOCATION = './figures/'
+else:
+    FOLDER_LOCATION = './figures_manuels_desk/'
+
 class Simulations:
     def __init__(self,grid_size=default_grid_size, beacon_grid=default_beacon_grid,
                  nest_location=default_nest_location, food_location=default_food_location, N_total=default_N_total,
@@ -290,13 +295,13 @@ class Simulations:
         plt.ylim(0, self.grid.domain[1])
         plt.colorbar()
         if to_plot == 'W1' and fig_tag:
-            plt.savefig('./figures/W1/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.savefig(FOLDER_LOCATION + 'W1/' + str(to_plot) + '_' + str(fig_tag) + '.png')
             plt.close()
         elif to_plot == 'W2' and fig_tag:
-            plt.savefig('./figures/W2/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.savefig(FOLDER_LOCATION +'W2/' + str(to_plot) + '_' + str(fig_tag) + '.png')
             plt.close()
         elif to_plot == 'W' and fig_tag:
-            plt.savefig('./figures/W/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.savefig(FOLDER_LOCATION +'W/' + str(to_plot) + '_' + str(fig_tag) + '.png')
             plt.close()
         else:
             plt.show()
@@ -311,7 +316,7 @@ class Simulations:
         plt.plot(range(0,total_time), trips_sequence, 'r')
 
         if fig_tag:
-            plt.savefig('./figures/' + 'total_trips_' + str(fig_tag) + '.png')
+            plt.savefig(FOLDER_LOCATION + 'total_trips_' + str(fig_tag) + '.png')
             plt.close()
         else:
             plt.show()

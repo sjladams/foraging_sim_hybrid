@@ -1,3 +1,5 @@
+local = False
+
 total_time = 10
 
 default_grid_size = [100,50]        # [200,100] / [100,50]
