@@ -10,14 +10,21 @@ for t in range(0,int(total_time/dt)):
     # print(simulation.beacons.check_weights(to_show = 'W1'))
     simulation.sim_step_mov_beac(t, switch_time=0)
     # simulation.plt_beacons(to_plot='W1')
-    if t % 5 ==0:  #5
+    if t % 10 ==0:  #5
         simulation.plt_beacons(to_plot='W1',fig_tag=t)
         simulation.plt_beacons(to_plot='W2',fig_tag=t)
         simulation.plt_beacons(to_plot='W', fig_tag=t)
+
+        simulation.plt_3d(to_plot='W1',fig_tag=t)
+        simulation.plt_3d(to_plot='W2',fig_tag=t)
+        simulation.plt_3d(to_plot='W', fig_tag=t)
+
         # simulation.plt_beacons(to_plot='W1')
         # simulation.plt_beacons(to_plot='W2')
         # simulation.plt_beacons(to_plot='W')
         # simulation.plt_beacons(to_plot='W1')
+
+        # simulation.plt_range_beacons()
 
 simulation.plot_trips(int(total_time/dt),fig_tag='test_case')
 

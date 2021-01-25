@@ -13,6 +13,7 @@ class Beacon:
         self.pt = np.array([location, location])
         self.w = np.array([0., 0.])
         self.var = [np.NaN, np.NaN]
+        self.amp = [np.NaN, np.NaN]
         self.mt = [np.NaN, np.NaN]
         self.ct = [[np.NaN, np.NaN], [np.NaN, np.NaN]]
         self.neigh = []
@@ -26,19 +27,26 @@ class Beacon:
                 count += 1
         self.ants_at_beacon = count
 
+    def amplitude(self):
+        self.amp[0] = self.w[0] + 0.1*max(self.neigh_weigh[0] + [self.w[0]], default = 0.1*self.w[0])
+        self.amp[1] = self.w[1] + 0.1*max(self.neigh_weigh[1]+ [self.w[1]], default=0.1 * self.w[1])
+
     def variance(self):
+        if (1 - (self.w[0] / self.amp[0])) < numeric_margin:
+            print('how is this possible')
         if self.w[0] > numeric_margin:
-            # print(self.w[0])
-            self.var[0] = -clip_range**2/(2*np.log(1- (self.w[0]/ampFactor) ))
+            # self.var[0] = -clip_range**2/(2*np.log(1- (self.w[0]/ampFactor) ))
+            self.var[0] = -clip_range ** 2 / (2 * np.log(1 - (self.w[0] / self.amp[0])))
         else:
             self.var[0] = None
+
         if self.w[1] > numeric_margin:
-            try:
-                self.var[1] = -clip_range ** 2 / (2 * np.log(1 - (self.w[1] / ampFactor)))
-            except:
-                test =0
+            # self.var[1] = -clip_range ** 2 / (2 * np.log(1 - (self.w[1] / ampFactor)))
+            self.var[1] = -clip_range ** 2 / (2 * np.log(1 - (self.w[1] / self.amp[1])))
+
         else:
             self.var[1] = None
+
 
     def nest_in_range(self):
         return np.linalg.norm(self.pt[1] - self.nest_location) <= self.target_range + numeric_margin
@@ -73,6 +81,10 @@ class Beacons:
     #     #                            np.linspace(default_nest_location[1]-2, default_nest_location[1]+2,
     #     #                                        self.beacon_grid[1] + 2)[1:-1]))
 
+    def update_amplitude(self):
+        for beac_tag in self.beacons:
+            self.beacons[beac_tag].amplitude()
+
     def update_variance(self):
         for beac_tag in self.beacons:
             self.beacons[beac_tag].variance()
@@ -82,7 +94,9 @@ class Beacons:
             self.update_masks()
         if weights_changed:
             self.update_neighbours_weights()
+        # TODO check why just_initialized condition is needed
         if weights_changed and not just_initialized:
+            self.update_amplitude()
             self.update_variance()
 
     def move_step(self, W):

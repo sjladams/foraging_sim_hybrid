@@ -77,6 +77,7 @@ class Simulations:
         tags_changed = []
         for ant_tag in old_ants:
             if sum(self.ants.ants[ant_tag].w) <= 0. and np.random.uniform() <1 :
+
                 tags_changed += [ant_tag]
 
                 self.beacons.beacons[ant_tag] = Beacon(self.ants.ants[ant_tag].nt[1], ant_tag)
@@ -93,15 +94,16 @@ class Simulations:
         weight_dict = self.beacons.check_weights(to_check = 'W',thres=threshold)
         ant_dict = self.beacons.check_ants()
 
+        # to comment:
         old_beacons = self.beacons.beacons.copy()
-        # for beac_tag in old_beacons:
-        #     if beac_tag not in weight_dict and beac_tag not in ant_dict and beac_tag not in tags_changed:
-        #         self.ants.ants[beac_tag] = Ant(default_nest_location, default_food_location, beac_tag,
-        #                                        init_location=self.beacons.beacons[beac_tag].pt[1])
-        #         del self.beacons.beacons[beac_tag]
-        #
-        #         self.beacons.update_beacon_configuration()
-        #         self.update_ant_beacon_connection()
+        for beac_tag in old_beacons:
+            if beac_tag not in weight_dict and beac_tag not in ant_dict and beac_tag not in tags_changed:
+                self.ants.ants[beac_tag] = Ant(default_nest_location, default_food_location, beac_tag,
+                                               init_location=self.beacons.beacons[beac_tag].pt[1])
+                del self.beacons.beacons[beac_tag]
+
+                self.beacons.update_beacon_configuration()
+                self.update_ant_beacon_connection()
 
 
     def reward(self, weights,rew,ants_at_beacon):
@@ -209,7 +211,7 @@ class Simulations:
         plt.colorbar()
         plt.show()
 
-    def plt_3d(self, to_plot='W'):
+    def plt_3d(self, to_plot='W', fig_tag=None):
         fig = plt.figure(figsize=(12, 6))
         ax = fig.gca(projection='3d')
 
@@ -232,7 +234,18 @@ class Simulations:
         ax.set_xlabel('x')
         ax.set_ylabel('y')
         ax.set_zlabel('z')
-        plt.show()
+
+        if to_plot == 'W1' and fig_tag:
+            plt.savefig(FOLDER_LOCATION + 'W1_3d/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.close()
+        elif to_plot == 'W2' and fig_tag:
+            plt.savefig(FOLDER_LOCATION + 'W2_3d/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.close()
+        elif to_plot == 'W' and fig_tag:
+            plt.savefig(FOLDER_LOCATION + 'W_3d/' + str(to_plot) + '_' + str(fig_tag) + '.png')
+            plt.close()
+        else:
+            plt.show()
 
     def plt_beacons(self, to_plot='W', fig_tag=None):
         # vor = Voronoi([item.pt[1] for item in self.beacons.beacons])
@@ -317,6 +330,53 @@ class Simulations:
 
         if fig_tag:
             plt.savefig(FOLDER_LOCATION + 'total_trips_' + str(fig_tag) + '.png')
+            plt.close()
+        else:
+            plt.show()
+
+
+
+    def plt_range_beacons(self, fig_tag=None):
+        # vor = Voronoi([item.pt[1] for item in self.beacons.beacons])
+        fig, ax = plt.subplots(figsize=(12, 6))
+
+        # if len(self.beacons.beacons) >3:
+        #     vor = Voronoi([self.beacons.beacons[beac_tag].pt[1] for beac_tag in self.beacons.beacons])
+        #     voronoi_plot_2d(vor, show_vertices=False)
+
+        for beac_tag in self.beacons.beacons:
+            circle = plt.Circle(self.beacons.beacons[beac_tag].pt[1], clip_range , color='r',fill=False)
+            ax.add_patch(circle)
+
+
+        for count, ant_tag in enumerate(self.ants.ants):
+            if count ==1:
+                circle = plt.Circle(self.ants.ants[ant_tag].nt[1], clip_range , color='g',fill=False)
+                ax.add_patch(circle)
+
+        plt.plot([default_nest_location[0], default_food_location[0]],
+                 [default_nest_location[1], default_food_location[1]], 'r*')
+
+        plt.plot([self.ants.ants[ant_tag].nt[1][0] for ant_tag in self.ants.ants if
+                  self.ants.ants[ant_tag].mode[1] == 0],
+                 [self.ants.ants[ant_tag].nt[1][1] for ant_tag in self.ants.ants if
+                  self.ants.ants[ant_tag].mode[1] == 0], 'g*')
+        plt.plot([self.ants.ants[ant_tag].nt[1][0] for ant_tag in self.ants.ants if
+                  self.ants.ants[ant_tag].mode[1] == 1],
+                 [self.ants.ants[ant_tag].nt[1][1] for ant_tag in self.ants.ants if
+                  self.ants.ants[ant_tag].mode[1] == 1], 'y*')
+
+        plt.plot([self.beacons.beacons[beac_tag].pt[1][0] for beac_tag in self.beacons.beacons],
+                 [self.beacons.beacons[beac_tag].pt[1][1] for beac_tag in self.beacons.beacons], 'b*')
+
+        # plt.xlim(0, self.grid.domain[0])
+        # plt.ylim(0, self.grid.domain[1])
+
+        ax.set_xlim((0, self.grid.domain[0]))
+        ax.set_ylim((0, self.grid.domain[1]))
+
+        if fig_tag:
+            plt.savefig(FOLDER_LOCATION + 'range_beacons' + str(fig_tag) + '.png')
             plt.close()
         else:
             plt.show()

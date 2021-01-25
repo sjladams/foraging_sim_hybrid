@@ -1,30 +1,30 @@
-local = False
+local = True
 
-total_time = 10
+total_time = 600
 
-default_grid_size = [100,50]        # [200,100] / [100,50]
-default_domain = [20,10]            # [40,20] / [20,10]
-default_nest_location = [5, 5.]    # [5.,4.] / [5., 4.]
-default_food_location = [15, 5.]   # [30.,14.] / [15., 6.]
+default_grid_size = [100,52]      # [200,100] / [100,50]
+default_domain = [20,10]           # [40,20] / [20,10]
+default_nest_location = [5., 5.]    # [5.,4.] / [5., 4.]
+default_food_location = [15.,5.]   # [30.,14.] / [15., 6.]
 default_beacon_grid = [10,8]        # [20,16] / [10,8]
 
 default_N_batch = 5
-default_N_total = 10 # 500 / 100
+default_N_total = 300 # 500 / 100
 
-ampFactor = 30
+# ampFactor = 30
 kappa=1   #1
 lam= 1#1
 rew=1
-default_rho = 0.2 #0.0001
-default_epsilon =  0.1 #0.05 #5
+default_rho = 0.01 #0.0001
+default_epsilon = 0.1 #0.05 #5
 DEBUG=1
-dt=1
-default_target_range=1   #dt   # 1
-default_var = 10
-clip_range = 1.
+dt=0.5
+default_target_range=0.5   #dt   # 1
+# default_var = 10
+clip_range = 1 #2.
 
-elips_a = 0.008     # 0.002 / 0.008
-elips_c = 0.03      # 0.009 / 0.03
+elips_a = 0.008    # 0.002 / 0.008
+elips_c = 0.03     # 0.009 / 0.03
 elips_ampl = 1
 
 offset = 1 # 1e-6

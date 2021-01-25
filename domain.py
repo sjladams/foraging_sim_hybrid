@@ -50,7 +50,8 @@ def mapper(fnc):
 def shift_clip(value, beacon, w_type):
     # new_value = value - beacon.w[w_type] * np.exp(-(clip_range**2/(2*beacon.var)))
     if beacon.var[w_type]:
-        new_value = value - ampFactor * np.exp(-(clip_range ** 2 / (2 * beacon.var[w_type])))
+        # new_value = value - ampFactor * np.exp(-(clip_range ** 2 / (2 * beacon.var[w_type])))
+        new_value = value - beacon.amp[w_type] * np.exp(-(clip_range ** 2 / (2 * beacon.var[w_type])))
     else:
         new_value = np.zeros(value.shape)
     return np.clip(new_value, 0, np.inf)
@@ -59,7 +60,9 @@ def shift_clip(value, beacon, w_type):
 def gaussian(x,y, beacon,w_type):
     # value = beacon.w[w_type] * np.exp(-((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var))
     if beacon.var[w_type]:
-        value = ampFactor * np.exp(-((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
+        # value = ampFactor * np.exp(-((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
+        value = beacon.amp[w_type] * np.exp(
+            -((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
     else:
         value = np.zeros(x.shape)
     return shift_clip(value,beacon, w_type)
@@ -68,15 +71,14 @@ def gaussian(x,y, beacon,w_type):
 def drv_gaussian(x,y, beacon,w_type):
     # value = beacon.w[w_type] * np.exp(-((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var))
     if beacon.var[w_type]:
-        value = ampFactor * np.exp(
+        # value = ampFactor * np.exp(
+        #     -((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
+        value = beacon.amp[w_type] * np.exp(
             -((x - beacon.pt[1][0]) ** 2 + (y - beacon.pt[1][1]) ** 2) / (2 * beacon.var[w_type]))
         to_return = np.array([-(x - beacon.pt[1][0]) / (beacon.var[w_type]), -(y - beacon.pt[1][1]) / (beacon.var[w_type])]) * shift_clip(
             value, beacon, w_type)
     else:
         to_return = np.zeros(2)
-
-
-
     return to_return
 
 
