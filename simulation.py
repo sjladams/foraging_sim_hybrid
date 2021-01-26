@@ -132,7 +132,7 @@ class Simulations:
     def find_neigh_beacons_ant(self, ant_tag):
         weights = [[],[]]
         for beac_tag in self.beacons.beacons:
-            if np.linalg.norm(self.beacons.beacons[beac_tag].pt[1] -  self.ants.ants[ant_tag].nt[1]) < clip_range:
+            if np.linalg.norm(self.beacons.beacons[beac_tag].pt[1] - self.ants.ants[ant_tag].nt[1]) < clip_range:
                 weights[0] += [self.beacons.beacons[beac_tag].w[0]]
                 weights[1] += [self.beacons.beacons[beac_tag].w[1]]
         return weights
@@ -142,8 +142,8 @@ class Simulations:
         self.beacons.fnc_ants_at_beacons(self.ants.ants)
 
         for ant_tag in self.ants.ants:
-            neigh_beac_weigh = self.beacons.beacons[self.ants.ants[ant_tag].cl_beac].neigh_weigh
-            # neigh_beac_weigh = self.find_neigh_beacons_ant(ant_tag)
+            # neigh_beac_weigh = self.beacons.beacons[self.ants.ants[ant_tag].cl_beac].neigh_weigh
+            neigh_beac_weigh = self.find_neigh_beacons_ant(ant_tag)
 
             if self.ants.ants[ant_tag].mode[0]==0:
                 if self.ants.ants[ant_tag]._reached_nest():
