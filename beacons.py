@@ -28,8 +28,10 @@ class Beacon:
         self.ants_at_beacon = count
 
     def amplitude(self):
-        self.amp[0] = self.w[0] + 0.1*max(self.neigh_weigh[0] + [self.w[0]], default = 0.1*self.w[0])
-        self.amp[1] = self.w[1] + 0.1*max(self.neigh_weigh[1]+ [self.w[1]], default=0.1 * self.w[1])
+        # self.amp[0] = self.w[0] + 0.1*max(self.neigh_weigh[0] + [self.w[0]], default = 0.1*self.w[0])
+        self.amp[0] = self.w[0] + 0.1 * self.w[0]
+        # self.amp[1] = self.w[1] + 0.1*max(self.neigh_weigh[1]+ [self.w[1]], default=0.1 * self.w[1])
+        self.amp[1] = self.w[1] + 0.1 * self.w[1]
 
     def variance(self):
         if (1 - (self.w[0] / self.amp[0])) < numeric_margin:
