@@ -117,7 +117,8 @@ class Simulations:
         # return 1
 
     def initialize_beacon_weights(self,tag):
-        neigh_beac_weigh = self.beacons.beacons[tag].neigh_weigh
+        # neigh_beac_weigh = self.beacons.beacons[tag].neigh_weigh
+        neigh_beac_weigh = self.find_neigh_beacons_ant(tag)
 
         if self.ants.ants[tag]._reached_nest():
             self.beacons.beacons[tag].w[0] += self.reward(neigh_beac_weigh[0], rew, 1)
@@ -324,9 +325,9 @@ class Simulations:
         self.total_trips[t] = sum([self.ants.ants[ant_tag].trips for ant_tag in self.ants.ants])
 
     def plot_trips(self,total_time,fig_tag=None):
-        trips_sequence = [self.total_trips[time] for time in range(0,total_time)]
+        trips_sequence = np.array([self.total_trips[time] for time in range(0,total_time)]) / self.N_total
 
-        plt.plot(range(0,total_time), trips_sequence, 'r')
+        plt.plot(np.array(range(0,total_time))*dt, trips_sequence, 'r')
 
         if fig_tag:
             plt.savefig(FOLDER_LOCATION + 'total_trips_' + str(fig_tag) + '.png')

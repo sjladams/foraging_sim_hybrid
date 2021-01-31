@@ -1,12 +1,11 @@
 local = True
 
-
-total_time = 600
+total_time = 500
 
 default_grid_size = [100,52]      # [200,100] / [100,50]
 default_domain = [20,10]           # [40,20] / [20,10]
-default_nest_location = [5., 5.]    # [5.,4.] / [5., 4.]
-default_food_location = [15.,5.]   # [30.,14.] / [15., 6.]
+default_nest_location = [5., 4.]    # [5.,4.] / [5., 4.]
+default_food_location = [15.,6.]   # [30.,14.] / [15., 6.]
 default_beacon_grid = [10,8]        # [20,16] / [10,8]
 
 default_N_batch = 5

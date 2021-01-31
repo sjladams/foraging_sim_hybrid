@@ -15,9 +15,9 @@ for t in range(0,int(total_time/dt)):
         simulation.plt_beacons(to_plot='W2',fig_tag=t)
         simulation.plt_beacons(to_plot='W', fig_tag=t)
 
-        simulation.plt_3d(to_plot='W1',fig_tag=t)
-        simulation.plt_3d(to_plot='W2',fig_tag=t)
-        simulation.plt_3d(to_plot='W', fig_tag=t)
+        # simulation.plt_3d(to_plot='W1',fig_tag=t)
+        # simulation.plt_3d(to_plot='W2',fig_tag=t)
+        # simulation.plt_3d(to_plot='W', fig_tag=t)
 
         # simulation.plt_beacons(to_plot='W1')
         # simulation.plt_beacons(to_plot='W2')
